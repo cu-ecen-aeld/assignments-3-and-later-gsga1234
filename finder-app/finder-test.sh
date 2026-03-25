@@ -49,13 +49,11 @@ then
 	fi
 fi
 
-if [ "$assignment" = "assignment2" ]
+if [ "$assignment" = "assignment1" ]
 then
-	make clean
-	make
-	WRITER=./writer
-else
 	WRITER=./writer.sh
+else
+	WRITER=./writer
 fi
 
 #echo "Removing the old writer utility and compiling as a native application"
