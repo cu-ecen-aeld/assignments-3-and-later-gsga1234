@@ -1,0 +1,33 @@
+#!/bin/sh
+#
+# BusyBox / SysV init helper for aesdsocket (Assignment 5).
+# start: launch /usr/bin/aesdsocket in daemon mode (-d).
+# stop:  send SIGTERM so the daemon exits and runs cleanup (unlink data file, etc.).
+#
+
+DAEMON=/usr/bin/aesdsocket
+NAME=aesdsocket
+
+case "$1" in
+start)
+	echo "Starting $NAME"
+	# -S: start if not already running; -x: executable; -- : program args
+	start-stop-daemon -S -q -x "$DAEMON" -- -d
+	;;
+stop)
+	echo "Stopping $NAME"
+	# -K: stop; -s 15 is SIGTERM (graceful shutdown). -o: no error if not running.
+	start-stop-daemon -K -q -o -s 15 -x "$DAEMON"
+	;;
+restart)
+	"$0" stop
+	sleep 1
+	"$0" start
+	;;
+*)
+	echo "Usage: $0 {start|stop|restart}" >&2
+	exit 1
+	;;
+esac
+
+exit 0
